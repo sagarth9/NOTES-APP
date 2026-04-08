@@ -1,15 +1,22 @@
 require("dotenv").config();
-
-const config = require("./config.json");
-const mongoose = require("mongoose");
-mongoose.connect(config.connectionString);
-
-const User = require("./models/user.model");
-const Note = require("./models/note.model");
-
 const express = require("express");
 const cors = require("cors");
 const app = express();
+const User = require("./models/user.model");
+const Note = require("./models/note.model");
+
+const mongoose = require("mongoose");
+mongoose.connect(process.env.MONGO_URI)
+.then(() => console.log("MongoDB connected ✅"))
+.catch((err) => console.log("MongoDB error ❌", err));
+
+const PORT = process.env.PORT || 8000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
+
 
 const jwt = require("jsonwebtoken");
 const { authenticateToken } = require("./utilities");
@@ -316,8 +323,5 @@ app.get("/search-notes", authenticateToken, async (req, res) => {
     }
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
 
 module.exports = app;

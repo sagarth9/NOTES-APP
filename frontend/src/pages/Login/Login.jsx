@@ -6,8 +6,6 @@ import { validateEmail } from '../../utils/helper';
 import { useState } from 'react';
 import axiosInstance from '../../utils/axiosInstance';
 
-
-
 const Login = () => {
 
 const [email, setEmail] = useState("");
@@ -36,7 +34,7 @@ const handleLogin = async (e) => {
       email: email,
       password: password,
     });
-
+    
     if(response.data && response.data.accessToken){
       localStorage.setItem("accessToken", response.data.accessToken);
       navigate('/dashboard');
